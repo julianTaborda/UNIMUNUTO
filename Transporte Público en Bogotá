@@ -1,4 +1,30 @@
-[analysis.py](https://github.com/user-attachments/files/25829558/analysis.py)
-[data_collection.py](https://github.com/user-attachments/files/25829560/data_collection.py)[test_system.py](https://github.com/user-attachments/files/25829563/test_system.py)
-[optimization.py](https://github.com/user-attachments/files/25829562/optimization.py)
-[Main.py](https://github.com/user-attachments/files/25829561/Main.py)
+from data_collection import setup_selenium, collect_data
+from analysis import analyze_data
+from optimization import propose_optimizations
+
+URL = "https://twitter.com/search?q=transporte%20publico%20Bogota&src=typed_query"
+
+def main():
+    print("Iniciando recolección de datos...")
+
+    driver = setup_selenium()
+    data = collect_data(driver, URL)
+    driver.quit()
+
+    print(f"Tweets recolectados: {len(data)}")
+
+    print("Analizando datos...")
+    issues = analyze_data(data)
+
+    print("Problemas detectados:")
+    print(issues)
+
+    print("Generando propuestas...")
+    optimizations = propose_optimizations(issues)
+
+    print("Propuestas de optimización:")
+    for opt in optimizations:
+        print(opt)
+
+if __name__ == "__main__":
+    main()
